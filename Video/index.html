@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Metadata</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+        }
+
+        canvas {
+            border: 1px solid #ccc;
+            background-color: #fff;
+            margin-right: 10px; /* Adjust the margin as needed */
+        }
+    </style>
+</head>
+<body>
+    <video id="myVideo" width="640" height="360" controls>
+        <source src="sample-without-audio.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+
+    <canvas id="metadataCanvas" width="300" height="400"></canvas>
+
+    <script>
+        const video = document.getElementById('myVideo');
+        const canvas = document.getElementById('metadataCanvas');
+        const ctx = canvas.getContext('2d');
+
+        video.addEventListener('loadedmetadata', () => {
+            // Define video metadata
+            const metadata = {
+                title: "Sample Video",
+                description: "This is a sample video with metadata.",
+                duration: video.duration.toFixed(2) + "s",
+                resolution: video.videoWidth + "x" + video.videoHeight,
+                codec: "H.264",
+                bitrate: "5000 kbps",
+                frameRate: video.webkitDecodedFrameCount / video.duration + " fps",
+                aspectRatio: (video.videoWidth / video.videoHeight).toFixed(2),
+                creationDate: "2023-11-10",
+                author: "John Doe",
+                location: "Unknown",
+                thumbnail: "path/to/thumbnail.jpg",
+                language: "English",
+                closedCaptions: true,
+                subtitles: false
+            };
+
+            // Draw metadata on the canvas
+            ctx.fillStyle = '#333';
+            ctx.font = '14px Arial';
+            let y = 20;
+
+            for (const key in metadata) {
+                const text = `${key}: ${metadata[key]}`;
+                ctx.fillText(text, 10, y);
+                y += 20;
+            }
+        });
+    </script>
+</body>
+</html>
